@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'app_colors.dart';
 import 'app_text_styles.dart';
 
@@ -14,7 +13,7 @@ class AppStyles {
   }
 
   ButtonStyle get primaryButton => ElevatedButton.styleFrom(
-        backgroundColor: ColorsApp.i.primary,
+        backgroundColor: AppColors.i.primary,
         textStyle: AppTextStyles.i.textButtonLabel,
         elevation: 10,
         shadowColor: Colors.black.withOpacity(0.8),
