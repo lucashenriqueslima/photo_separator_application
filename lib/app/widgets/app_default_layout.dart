@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:photo_separator/app/widgets/app_navigation_rail.dart';
 
 class AppDefaultLayout extends StatelessWidget {
-  final List<Widget>? children; 
-  final String? activeRoute;
+  final Widget? child; 
   final bool? useDefaultNavigation;
 
   const AppDefaultLayout({
     Key? key,
-    
-    this.children,
-    this.activeRoute,
+    this.child,
     this.useDefaultNavigation = true,
   }) : super(key: key);
 
@@ -22,7 +19,10 @@ class AppDefaultLayout extends StatelessWidget {
       children: [
         if (useDefaultNavigation!)
           const AppNavigationRail(),
-        if (children != null) ...children!,
+          const VerticalDivider(width: 0),
+
+        if (child != null) 
+          Expanded(child: child!),
       ],
     );
   }

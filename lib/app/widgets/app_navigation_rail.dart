@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:photo_separator/app/theme/styles/app_colors.dart';
-import 'package:photo_separator/app/theme/styles/app_text_styles.dart';
+import 'package:photo_separator/app/themes/styles/app_colors.dart';
+import 'package:photo_separator/app/themes/styles/app_text_styles.dart';
 
 class AppNavigationRail extends GetView<AppNavigationRailController> {
   const AppNavigationRail({super.key});
