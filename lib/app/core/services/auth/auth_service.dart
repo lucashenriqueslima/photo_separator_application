@@ -17,7 +17,7 @@ class AuthService extends GetxService {
 
   void initUser() {
     final initialUser = _repository.readUser();
-    if (initialUser != null) {
+    if (initialUser.token != null) {
       user.value = initialUser;
       isLogged.value = true;
     }
