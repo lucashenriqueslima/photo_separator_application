@@ -14,17 +14,19 @@ abstract class HttpMethods {
 }
 
 class HttpClient {
-    Future httpRequest({
+  final Dio _dio = Dio();
+
+  void useInterceptors() {}
+
+  Future request({
     required String url,
     required String method,
     Map? headers,
     dynamic body,
     bool useDefaultUrl = true,
   }) async {
-    final Dio dio = Dio();
-
-    dio.options.connectTimeout = 10000;
-    dio.options.receiveTimeout = 10000;
+    _dio.options.connectTimeout = 10000;
+    _dio.options.receiveTimeout = 10000;
 
     final deafaultHeaders =
         headers?.cast<String, String>() ?? <String, String>{}
@@ -35,7 +37,7 @@ class HttpClient {
           });
 
     try {
-      Response response = await dio.request(
+      Response response = await _dio.request(
         useDefaultUrl ? '${Env.API_URL}$url' : url,
         options: Options(
           method: method,

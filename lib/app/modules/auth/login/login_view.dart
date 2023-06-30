@@ -13,10 +13,16 @@ class LoginView extends GetView<LoginController> {
         title: const Text('LoginView'),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Text(
-          'LoginView is working',
-          style: TextStyle(fontSize: 20),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Form(
+              key: controller.formKey,
+              child: const Column(
+                children: [],
+              ),
+            ),
+          ),
         ),
       ),
     );
