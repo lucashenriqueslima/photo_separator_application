@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_separator/app/core/helpers/form/form_treat.dart';
 import 'package:photo_separator/app/core/services/auth/auth_service.dart';
-import 'package:photo_separator/app/routes/app_pages.dart';
 
 class LoginController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -15,10 +14,7 @@ class LoginController extends GetxController {
     FocusNode(),
   ];
 
-  RxList<Map<String, String>> errorMessages = [
-    {'email': ''},
-    {'password': ''},
-  ].obs;
+  final RxMap<String, String> errorTexts = {'email': '', 'password': ''}.obs;
 
   final RxBool isLoading = false.obs;
   final RxBool isObscure = true.obs;
@@ -27,8 +23,6 @@ class LoginController extends GetxController {
   void onInit() {
     super.onInit();
 
-    print(AuthService.to.user.value.token);
-
     formTreat = FormTreat(
       formKey: formKey,
       textEditingControllers: [
@@ -36,14 +30,14 @@ class LoginController extends GetxController {
         passwordController = TextEditingController(),
       ],
       focusNodes: focusNodes,
-      errorMessages: errorMessages,
+      errorTexts: errorTexts,
     );
   }
 
   void changeObscure() => isObscure.value = !isObscure.value;
 
   Future<void> login() async {
-    if (!formTreat.formKey.currentState!.validate()) return;
+    if (!formTreat.validate()) return;
 
     isLoading.value = true;
 
@@ -52,11 +46,16 @@ class LoginController extends GetxController {
       passwordController.text,
     );
 
-    if (!response.success) {
-      isLoading.value = false;
+    isLoading.value = false;
+
+    if (formTreat.apiValidate(response)) {
+      print(errorTexts);
+      return;
     }
 
-    Get.offAllNamed(Routes.DASHBOARD);
+    print(errorTexts);
+
+    // Get.offAllNamed(Routes.DASHBOARD);
   }
 
   @override

@@ -21,7 +21,7 @@ abstract class HttpMethods {
 class ApiResponse<T> {
   final int? statusCode;
   final T data;
-  late bool? success;
+  late bool success;
 
   ApiResponse(this.statusCode, this.data) {
     if (![200, 201, 202, 204].contains(statusCode)) {

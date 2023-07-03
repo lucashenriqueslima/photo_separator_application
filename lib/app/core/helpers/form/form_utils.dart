@@ -5,4 +5,9 @@ class FormUtils {
     currentFocus.unfocus();
     nextFocus.requestFocus();
   }
+
+  static String? getErrorText(String? errorText) {
+    if (errorText!.isNotEmpty) return errorText;
+    return null;
+  }
 }

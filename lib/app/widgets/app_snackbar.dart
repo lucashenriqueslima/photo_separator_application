@@ -29,22 +29,36 @@ class AppSnackbar {
         backgroundColor = Colors.red;
     }
 
+    Get.closeCurrentSnackbar();
+
     Get.snackbar(
       title,
       message,
-      // messageText: Text(data),
-      backgroundColor: backgroundColor,
-      colorText: colorText,
-      // snackPosition: SnackPosition.BOTTOM,
-      margin: const EdgeInsets.all(10.0),
-      mainButton: TextButton(
-        onPressed: () => Get.back(),
-        child: const Text(
-          'OK',
-          style: TextStyle(
-            color: Colors.white,
-          ),
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.grey[900],
+      borderRadius: 10.0,
+      margin: const EdgeInsets.all(20.0),
+      maxWidth: 500.0,
+      animationDuration: const Duration(milliseconds: 400),
+      duration: const Duration(seconds: 3),
+      titleText: const Text(
+        'Snackbar Moderno',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 18.0,
+          fontWeight: FontWeight.bold,
         ),
+      ),
+      messageText: const Text(
+        'Este é um exemplo de um Snackbar moderno.',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16.0,
+        ),
+      ),
+      icon: const Icon(
+        Icons.info_outline,
+        color: Colors.white,
       ),
     );
   }

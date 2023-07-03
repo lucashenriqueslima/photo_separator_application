@@ -34,9 +34,11 @@ class AppButton extends StatelessWidget {
             backgroundColor: backgroundColorButton ?? context.primary,
           ),
           onPressed: () {
-            // if (!isLoading) {
-            onPressed?.call();
-            // }
+            if (!isLoading) {
+              onPressed?.call();
+            }
+
+            null;
           },
           child: FittedBox(
             child: isLoading

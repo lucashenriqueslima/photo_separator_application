@@ -13,7 +13,7 @@ class FormValidators {
 
   static String? isEmpty(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Senha é obrigatória!';
+      return 'Campo obrigatório!';
     }
     return null;
   }
