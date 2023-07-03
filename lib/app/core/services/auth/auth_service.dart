@@ -27,17 +27,26 @@ class AuthService extends GetxService {
     });
   }
 
-  Future<bool> login(String email, String password) async {
+  login(String email, String password) async {
     final response = await _repository.login(email, password);
 
     if (!response.success) {
-      return false;
+      return response;
     }
 
-    user.value = User.fromJson(response);
+    final rawUser = response.data['data']['user'];
+    final rawToken = response.data['data']['token'];
+
+    Map<String, dynamic> newUser = {
+      'name': rawUser['name'],
+      'email': rawUser['email'],
+      'token': rawToken,
+    };
+
+    user.value = User.fromJson(newUser);
     isLogged.value = true;
 
-    return true;
+    return response;
   }
 
   void logout() {

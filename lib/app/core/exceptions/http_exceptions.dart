@@ -2,20 +2,25 @@ import 'package:get/get.dart';
 import 'package:photo_separator/app/core/keys/http_exceptions_consts.dart';
 import 'package:photo_separator/app/core/services/auth/auth_service.dart';
 import 'package:photo_separator/app/routes/app_pages.dart';
+import 'package:photo_separator/app/widgets/app_snackbar.dart';
 
 class HttpException implements Exception {
   final statusCode;
   final title;
   final message;
-  int? delay = 1;
+  late int delay;
 
   HttpException(this.statusCode, this.title, this.message) {
-    //
+    AppSnackbar(
+      title: title,
+      message: message,
+      type: 'error',
+    );
   }
 
   HttpException.withDelay(this.statusCode, this.title, this.message,
-      [this.delay]) {
-    Future.delayed(const Duration(seconds: 1), () {});
+      [this.delay = 1]) {
+    Future.delayed(Duration(seconds: delay), () {});
   }
 
   @override
@@ -32,7 +37,7 @@ class BadRequestException extends HttpException {
 
 class UnauthorisedException extends HttpException {
   UnauthorisedException(String? message)
-      : super.withDelay(401, unauthorisedExceptionTitle,
+      : super(401, unauthorisedExceptionTitle,
             message ?? unauthorisedExceptionMessage) {
     if (Get.currentRoute != Routes.LOGIN) {
       Get.offAllNamed(Routes.LOGIN);
@@ -43,8 +48,16 @@ class UnauthorisedException extends HttpException {
 
 class ForbiddenException extends HttpException {
   ForbiddenException(String? message)
-      : super.withDelay(
-            403, forbiddenExceptionTitle, message ?? forbiddenExceptionMessage);
+      : super.withDelay(403, forbiddenExceptionTitle,
+            message ?? forbiddenExceptionMessage) {
+    if (!AuthService.to.isLogged.value) {
+      AuthService.to.logout();
+      Get.offAllNamed(Routes.LOGIN);
+      return;
+    }
+
+    Get.offAllNamed(Routes.DASHBOARD);
+  }
 }
 
 class NotFoundException extends HttpException {
@@ -64,7 +77,7 @@ class InternalServerErrorException extends HttpException {
             message ?? internalServerErrorExceptionMessage);
 }
 
-class undefinedException extends HttpException {
-  undefinedException(String? message)
+class UndefinedException extends HttpException {
+  UndefinedException(String? message)
       : super(0, 'Erro', message ?? 'Erro desconhecido.');
 }

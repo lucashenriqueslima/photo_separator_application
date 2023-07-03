@@ -5,7 +5,7 @@ class HttpProvider {
 
   final HttpClient _httpClient = HttpClient();
 
-  Future<dynamic> login(String email, String password) async {
+  login(String email, String password) async {
     final response = await _httpClient.request(
       url: '/auth/login',
       method: HttpMethods.post,

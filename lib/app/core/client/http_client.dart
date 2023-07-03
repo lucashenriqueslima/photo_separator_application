@@ -32,25 +32,25 @@ class ApiResponse<T> {
   }
 }
 
-class ThrowException {
-  ThrowException(statusCode, data) {
+class GetHttpException {
+  GetHttpException(statusCode, data) {
     final message = data['message'] ?? data['error'] ?? data['errors'];
 
     switch (statusCode) {
       case 400:
-        throw BadRequestException(message);
+        BadRequestException(message);
       case 401:
-        throw UnauthorisedException(message);
+        UnauthorisedException(message);
       case 403:
-        throw ForbiddenException(message);
+        ForbiddenException(message);
       case 404:
-        throw NotFoundException(message);
+        NotFoundException(message);
       case 422:
-        throw UnprocesableEntityException(message);
+        UnprocesableEntityException(message);
       case 500:
-        throw InternalServerErrorException(message);
+        InternalServerErrorException(message);
       default:
-        throw undefinedException(message);
+        UndefinedException(message);
     }
   }
 }
@@ -58,7 +58,7 @@ class ThrowException {
 class HttpClient {
   final Dio _dio = Dio();
 
-  Future<dynamic> request({
+  Future<ApiResponse<dynamic>> request({
     required String url,
     required String method,
     Map? headers,
@@ -92,13 +92,13 @@ class HttpClient {
     } on DioError catch (e) {
       if (e.response != null) {
         print('error in http request');
-        print(e.response?.data);
-        print(e.response?.headers);
-        print(e.response?.requestOptions);
+        // print(e.response);
 
         final decodedData = json.decode(e.response.toString());
 
-        return ThrowException(e.response?.statusCode, decodedData);
+        GetHttpException(e.response?.statusCode, decodedData);
+
+        return ApiResponse(e.response?.statusCode, decodedData);
       } else {
         Get.snackbar('Error', e.message);
         print('else');
