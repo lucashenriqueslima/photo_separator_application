@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+enum SnackbarType {
+  error,
+  success,
+  info,
+}
+
 class AppSnackbar {
   final String title;
   final String message;
