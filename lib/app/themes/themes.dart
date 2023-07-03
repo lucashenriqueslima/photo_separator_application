@@ -5,7 +5,7 @@ import 'package:photo_separator/app/themes/styles/app_text_styles.dart';
 
 class Themes {
   static final _defaultInputBorder = OutlineInputBorder(
-    borderRadius: const BorderRadius.all(Radius.circular(12)),
+    borderRadius: const BorderRadius.all(Radius.circular(15)),
     borderSide: BorderSide(color: Colors.grey[400]!),
   );
 
@@ -30,7 +30,7 @@ class Themes {
       fillColor: Colors.grey[50],
       filled: true,
       isDense: true,
-      contentPadding: const EdgeInsets.all(16),
+      contentPadding: const EdgeInsets.all(20),
       border: _defaultInputBorder,
       enabledBorder: _defaultInputBorder,
       focusedBorder: _defaultInputBorder,

@@ -7,7 +7,7 @@ class AuthService extends GetxService {
 
   final AuthRepository _repository = AuthRepository();
 
-  final Rx<User> user = User().obs; 
+  final Rx<User> user = User().obs;
   final RxBool isLogged = false.obs;
 
   Future<AuthService> init() async {
@@ -27,4 +27,21 @@ class AuthService extends GetxService {
     });
   }
 
+  Future<bool> login(String email, String password) async {
+    final response = await _repository.login(email, password);
+
+    if (!response.success) {
+      return false;
+    }
+
+    user.value = User.fromJson(response);
+    isLogged.value = true;
+
+    return true;
+  }
+
+  void logout() {
+    user.value = User();
+    isLogged.value = false;
+  }
 }
