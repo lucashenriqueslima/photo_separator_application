@@ -24,7 +24,7 @@ class FormTreat {
   }
 
   bool validate() {
-    clearErrors();
+    // clearErrors();
 
     if (formKey.currentState!.validate()) return true;
 

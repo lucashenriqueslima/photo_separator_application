@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_separator/app/core/helpers/form/form_treat.dart';
 import 'package:photo_separator/app/core/services/auth/auth_service.dart';
+import 'package:photo_separator/app/routes/app_pages.dart';
 
 class LoginController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -48,14 +49,9 @@ class LoginController extends GetxController {
 
     isLoading.value = false;
 
-    if (formTreat.apiValidate(response)) {
-      print(errorTexts);
-      return;
-    }
+    if (!formTreat.apiValidate(response)) return;
 
-    print(errorTexts);
-
-    // Get.offAllNamed(Routes.DASHBOARD);
+    Get.offAllNamed(Routes.DASHBOARD);
   }
 
   @override

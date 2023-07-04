@@ -14,7 +14,7 @@ class HttpException implements Exception {
     AppSnackbar(
       title: title,
       message: message,
-      type: 'error',
+      type: SnackbarType.error,
     );
   }
 

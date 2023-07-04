@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:photo_separator/app/core/extensions/size_extensions.dart';
 import 'package:photo_separator/app/core/extensions/widget_extensions.dart';
 import 'package:photo_separator/app/core/helpers/form/form_utils.dart';
+import 'package:photo_separator/app/core/helpers/form/form_validators.dart';
 import 'package:photo_separator/app/widgets/app_button.dart';
 import 'package:photo_separator/app/widgets/app_text_form_field.dart';
 import 'login_controller.dart';
@@ -28,7 +29,7 @@ class LoginView extends GetView<LoginController> {
                       controller: controller.emailController,
                       focusNode: controller.focusNodes[0],
                       nextFocusNode: controller.focusNodes[1],
-                      // validator: (value) => FormValidators.isEmail(value),
+                      validator: (value) => FormValidators.isEmail(value),
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.person),
                         hintText: 'E-mail',

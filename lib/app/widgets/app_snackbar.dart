@@ -10,7 +10,7 @@ enum SnackbarType {
 class AppSnackbar {
   final String title;
   final String message;
-  final String? type;
+  final SnackbarType type;
   final Color? colorText;
 
   AppSnackbar({
@@ -20,19 +20,24 @@ class AppSnackbar {
     this.colorText,
   }) {
     Color? backgroundColor;
+    IconData icon;
 
     switch (type) {
-      case 'success':
-        backgroundColor = Colors.green;
+      case SnackbarType.success:
+        backgroundColor = Colors.green[900];
+        icon = Icons.check_circle_outline;
         break;
-      case 'error':
-        backgroundColor = Colors.red;
+      case SnackbarType.error:
+        backgroundColor = const Color.fromARGB(255, 205, 0, 0);
+        icon = Icons.error_outline;
         break;
-      case 'warning':
-        backgroundColor = Colors.orange;
+      case SnackbarType.info:
+        backgroundColor = Colors.grey[900];
+        icon = Icons.info_outline;
         break;
       default:
-        backgroundColor = Colors.red;
+        backgroundColor = Colors.grey[900];
+        icon = Icons.info_outline;
     }
 
     Get.closeCurrentSnackbar();
@@ -40,31 +45,31 @@ class AppSnackbar {
     Get.snackbar(
       title,
       message,
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.grey[900],
+      backgroundColor: backgroundColor,
       borderRadius: 10.0,
       margin: const EdgeInsets.all(20.0),
       maxWidth: 500.0,
       animationDuration: const Duration(milliseconds: 400),
       duration: const Duration(seconds: 3),
-      titleText: const Text(
-        'Snackbar Moderno',
-        style: TextStyle(
+      titleText: Text(
+        title,
+        style: const TextStyle(
           color: Colors.white,
           fontSize: 18.0,
           fontWeight: FontWeight.bold,
         ),
       ),
-      messageText: const Text(
-        'Este é um exemplo de um Snackbar moderno.',
-        style: TextStyle(
+      messageText: Text(
+        message,
+        style: const TextStyle(
           color: Colors.white,
           fontSize: 16.0,
         ),
       ),
-      icon: const Icon(
-        Icons.info_outline,
+      icon: Icon(
+        icon,
         color: Colors.white,
+        size: 32.0,
       ),
     );
   }

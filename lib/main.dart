@@ -8,7 +8,6 @@ import 'app/core/services/storage/storage_service.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async {
-
   // Initialize the local storage
   await GetStorage.init();
 
@@ -25,6 +24,7 @@ void main() async {
 
   runApp(
     GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Application",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
