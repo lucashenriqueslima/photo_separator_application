@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:photo_separator/app/widgets/app_navigation_rail.dart';
+import 'package:photo_separator/app/core/helpers/constants/constants.dart';
+import 'package:photo_separator/app/core/helpers/responsive/responsive.dart';
+import 'package:photo_separator/app/widgets/app_side_menu.dart';
 
 import 'dashboard_controller.dart';
 
@@ -10,40 +12,30 @@ class DashboardView extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppSideMenu(),
       body: SafeArea(
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppNavigationRail(),
-            Expanded(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            if (Responsive.isDesktop(context))
+              Expanded(
+                child: AppSideMenu(),
+              ),
+            const Expanded(
+              // It takes 5/6 part of the screen
+              flex: 5,
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  primary: false,
+                  padding: EdgeInsets.all(defaultPadding),
+                  child: Column(
                     children: [
-                      IconButton(
-                        icon: const Icon(Icons.menu),
-                        onPressed: () {
-                          // Adicione aqui a ação desejada ao pressionar o ícone do menu
-                        },
-                      ),
-                      const Text('Título do AppBar'),
-                      IconButton(
-                        icon: const Icon(Icons.notifications),
-                        onPressed: () {
-                          // Adicione aqui a ação desejada ao pressionar o ícone de notificações
-                        },
-                      ),
+                      SizedBox(
+                        height: defaultPadding,
+                      )
                     ],
                   ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Container(
-                        height: 1000,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ],

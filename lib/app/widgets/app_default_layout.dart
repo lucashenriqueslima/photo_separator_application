@@ -13,12 +13,49 @@ class AppDefaultLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        if (useDefaultNavigation!) AppNavigationRail(),
-        const VerticalDivider(width: 0),
-        if (child != null) Expanded(child: child!),
-      ],
+    return Scaffold(
+      body: SafeArea(
+        child: Row(
+          children: [
+            AppNavigationRail(),
+            Expanded(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Expanded(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.menu, size: 30),
+                                  onPressed: () {
+                                    // Adicione aqui a ação desejada ao pressionar o ícone do menu
+                                  },
+                                ),
+                                const Text('Título do AppBar'),
+                                IconButton(
+                                  icon: const Icon(Icons.notifications),
+                                  onPressed: () {
+                                    // Adicione aqui a ação desejada ao pressionar o ícone de notificações
+                                  },
+                                ),
+                              ],
+                            ),
+                            const Text('asdasd')
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

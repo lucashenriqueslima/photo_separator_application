@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:photo_separator/app/core/services/auth/auth_service.dart';
-import 'package:photo_separator/app/themes/themes.dart';
+import 'package:photo_separator/app/themes/styles/app_colors.dart';
 import 'app/core/services/storage/storage_service.dart';
 import 'app/routes/app_pages.dart';
 
@@ -28,7 +28,9 @@ void main() async {
       title: "Application",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
-      theme: Themes.lightTheme,
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: AppColors.i.backgroud,
+      ),
     ),
   );
 }

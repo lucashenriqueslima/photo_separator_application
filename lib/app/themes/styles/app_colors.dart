@@ -10,10 +10,10 @@ class AppColors {
     return _instance!;
   }
 
-  Color get primary => const Color(0xFFB65819);
-  Color get secondary => const Color(0xFFF2F2F5);
+  Color get primary => const Color(0xFF2697FF);
+  Color get secondary => const Color(0xFF2A2D3E);
   Color get third => const Color(0xFF1F1E1E);
-  Color get backgroud => const Color(0xFFEBA679);
+  Color get backgroud => const Color(0xFF212332);
   Color get scaffoldBackground => const Color(0xFFEBE1DA);
   // Color get disabled => const Color.fromARGB(255, 71, 51, 33);
   Color get secondaryButton => Colors.grey[500]!;

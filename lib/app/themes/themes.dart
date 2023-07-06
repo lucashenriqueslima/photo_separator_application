@@ -16,9 +16,9 @@ class Themes {
       primary: AppColors.i.primary,
       secondary: AppColors.i.secondary,
     ),
-    scaffoldBackgroundColor: AppColors.i.scaffoldBackground,
+    scaffoldBackgroundColor: AppColors.i.backgroud,
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.i.scaffoldBackground,
+      backgroundColor: AppColors.i.backgroud,
       titleSpacing: 0.0,
       elevation: 0,
       iconTheme: IconThemeData(color: AppColors.i.primary),

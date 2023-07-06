@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photo_separator/app/core/helpers/constants/constants.dart';
 
 // Widget Extensions
 extension WidgetExtension on Widget? {
@@ -14,28 +15,34 @@ extension WidgetExtension on Widget? {
   SizedBox withHeight(double height) => SizedBox(height: height, child: this);
 
   /// return padding top
-  Padding paddingTop(double top) {
-    return Padding(padding: EdgeInsets.only(top: top), child: this);
+  Padding paddingTop(double? top) {
+    return Padding(
+        padding: EdgeInsets.only(top: top ?? defaultPadding), child: this);
   }
 
   /// return padding left
-  Padding paddingLeft(double left) {
-    return Padding(padding: EdgeInsets.only(left: left), child: this);
+  Padding paddingLeft(double? left) {
+    return Padding(
+        padding: EdgeInsets.only(left: left ?? defaultPadding), child: this);
   }
 
   /// return padding right
-  Padding paddingRight(double right) {
-    return Padding(padding: EdgeInsets.only(right: right), child: this);
+  Padding paddingRight(double? right) {
+    return Padding(
+        padding: EdgeInsets.only(right: right ?? defaultPadding), child: this);
   }
 
   /// return padding bottom
-  Padding paddingBottom(double bottom) {
-    return Padding(padding: EdgeInsets.only(bottom: bottom), child: this);
+  Padding paddingBottom(double? bottom) {
+    return Padding(
+        padding: EdgeInsets.only(bottom: bottom ?? defaultPadding),
+        child: this);
   }
 
   /// return padding all
-  Padding paddingAll(double padding) {
-    return Padding(padding: EdgeInsets.all(padding), child: this);
+  Padding paddingAll(double? padding) {
+    return Padding(
+        padding: EdgeInsets.all(padding ?? defaultPadding), child: this);
   }
 
   /// return custom padding from each side
@@ -61,7 +68,7 @@ extension WidgetExtension on Widget? {
 
   /// set visibility
   Widget visible(bool visible, {Widget? defaultWidget}) {
-    return visible ? this! : (defaultWidget ?? SizedBox());
+    return visible ? this! : (defaultWidget ?? const SizedBox());
   }
 
   /// add custom corner radius each side
@@ -80,8 +87,6 @@ extension WidgetExtension on Widget? {
       ),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: this,
-
     );
   }
-
 }
