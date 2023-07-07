@@ -12,9 +12,11 @@ class AppNavigationRail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => NavigationRail(
+        extended: controller.isExtetend.value,
         selectedIconTheme: IconThemeData(color: AppColors.i.primary),
         selectedLabelTextStyle: AppTextStyles.i.textBold.copyWith(fontSize: 14),
         unselectedIconTheme: IconThemeData(color: AppColors.i.third),
+        backgroundColor: context.secondary,
         unselectedLabelTextStyle:
             AppTextStyles.i.textBold.copyWith(fontSize: 14),
         labelType: NavigationRailLabelType.selected,
@@ -27,7 +29,8 @@ class AppNavigationRail extends StatelessWidget {
 }
 
 class AppNavigationRailController extends GetxController {
-  final currentIndex = 0.obs;
+  final RxInt currentIndex = 0.obs;
+  final RxBool isExtetend = false.obs;
 
   void changeIndex(int index) {
     currentIndex.value = index;

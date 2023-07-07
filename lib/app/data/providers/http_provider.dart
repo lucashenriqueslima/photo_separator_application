@@ -17,4 +17,13 @@ class HttpProvider {
 
     return response;
   }
+
+  getAllEvents() async {
+    final response = await _httpClient.request(
+      url: '/events',
+      method: HttpMethods.get,
+    );
+
+    return response;
+  }
 }

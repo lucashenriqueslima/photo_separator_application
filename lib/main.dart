@@ -28,8 +28,13 @@ void main() async {
       title: "Application",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: AppColors.i.backgroud,
+      theme: ThemeData.light().copyWith(
+        primaryColor: AppColors.i.primary,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppColors.i.primary,
+          primary: AppColors.i.primary,
+          secondary: AppColors.i.secondary,
+        ),
       ),
     ),
   );
