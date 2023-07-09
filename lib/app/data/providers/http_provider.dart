@@ -26,4 +26,13 @@ class HttpProvider {
 
     return response;
   }
+
+  getEventById(String id) async {
+    final response = await _httpClient.request(
+      url: '/events/$id',
+      method: HttpMethods.get,
+    );
+
+    return response;
+  }
 }

@@ -1,11 +1,7 @@
-
 import 'package:get/get.dart';
-import 'package:photo_separator/app/data/repositories/event_repository.dart';
 
-class CreateEventController extends GetxController {
-  final EventRepository repository;
-
-  CreateEventController(this.repository);
+class HomeController extends GetxController {
+  //TODO: Implement HomeController
 
   final count = 0.obs;
   @override

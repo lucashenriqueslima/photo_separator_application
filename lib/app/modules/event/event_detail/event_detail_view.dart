@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'create_event_controller.dart';
+import 'event_detail_controller.dart';
 
-class CreateEventView extends GetView<CreateEventController> {
-  const CreateEventView({Key? key}) : super(key: key);
+class EventDetailView extends GetView<EventDetailController> {
+  const EventDetailView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CreateEventView'),
+        title: const Text('EventDetailView'),
         centerTitle: true,
       ),
       body: const Center(
         child: Text(
-          'CreateEventView is working',
+          'EventDetailView is working',
           style: TextStyle(fontSize: 20),
         ),
       ),
