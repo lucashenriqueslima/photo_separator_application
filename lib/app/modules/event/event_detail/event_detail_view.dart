@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:photo_separator/app/widgets/app_default_layout.dart';
 
 import 'event_detail_controller.dart';
 
@@ -8,17 +9,12 @@ class EventDetailView extends GetView<EventDetailController> {
   const EventDetailView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('EventDetailView'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'EventDetailView is working',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
+    return const AppDefaultLayout(
+      title: 'Evento',
+      subtitle: 'Evento',
+      children: [
+        Text('EventDetailView'),
+      ],
     );
   }
 }

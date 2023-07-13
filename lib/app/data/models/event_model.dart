@@ -8,15 +8,16 @@ class Event {
   String? start;
   String? end;
 
-  Event(
-      {this.id,
-      this.status,
-      this.title,
-      this.description,
-      this.place,
-      this.localization,
-      this.start,
-      this.end});
+  Event({
+    this.id,
+    this.status,
+    this.title,
+    this.description,
+    this.place,
+    this.localization,
+    this.start,
+    this.end,
+  });
 
   Event.fromJson(Map<String, dynamic> json) {
     id = json['id'];

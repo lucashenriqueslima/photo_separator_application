@@ -2,6 +2,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:photo_separator/app/routes/app_pages.dart';
 
 import 'event_list_controller.dart';
 
@@ -36,7 +37,8 @@ class EventListView extends GetView<EventListController> {
           controller.events.length,
           (index) => DataRow2(
             onTap: () {
-              Get.toNamed('/event/detail/${controller.events[index].id}');
+              Get.toNamed(
+                  '${Routes.EVENT_DETAIL}/${controller.events[index].id}');
             },
             cells: [
               DataCell(Text(controller.events[index].id.toString())),

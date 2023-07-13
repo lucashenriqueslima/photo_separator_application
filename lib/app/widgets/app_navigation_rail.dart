@@ -34,16 +34,15 @@ class AppNavigationRail extends StatelessWidget {
 }
 
 class AppNavigationRailController extends GetxController {
-  final dashboardController = Get.find<DashboardController>();
-
   final RxInt currentIndex = 0.obs;
   final RxBool isExtetend = false.obs;
 
   void changeDestionation(int index) {
     if (Get.currentRoute != Routes.DASHBOARD) {
-      Get.offAllNamed(Routes.DASHBOARD);
+      Get.offNamedUntil(Routes.DASHBOARD, (route) => route.isFirst);
     } else {
-      dashboardController.indexPage.value = index;
+      Get.put<DashboardController>(DashboardController());
+      Get.find<DashboardController>().indexPage.value = index;
     }
 
     currentIndex.value = index;

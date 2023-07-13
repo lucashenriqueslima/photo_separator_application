@@ -16,11 +16,11 @@ abstract class Routes {
 abstract class _Paths {
   _Paths._();
   static const HOME = '/home';
-  static const EVENT = '/event';
+  static const EVENT = '/events';
   static const CREATE_EVENT = '/create-event';
   static const DASHBOARD = '/dashboard';
   static const SPLASH = '/splash';
   static const LOGIN = '/login';
   static const LIST_EVENT = '/list-event';
-  static const EVENT_DETAIL = '/event-detail';
+  static const EVENT_DETAIL = '/event';
 }
