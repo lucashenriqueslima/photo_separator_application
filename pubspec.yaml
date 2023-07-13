@@ -2,44 +2,44 @@ name: photo_separator
 version: 1.0.0+1
 publish_to: none
 description: A new Flutter project.
-environment: 
-  sdk: '>=3.0.5 <4.0.0'
+environment:
+  sdk: ">=3.0.5 <4.0.0"
 
-dependencies: 
+dependencies:
   cupertino_icons: ^1.0.2
   get: 4.6.5
   get_storage: ^2.0.3
   flutter_svg: ^2.0.5
   dio: ^4.0.6
   mask_text_input_formatter: ^2.4.0
-  flutter: 
+  flutter:
     sdk: flutter
   data_table_2: ^2.5.3
+  desktop_drop: ^0.4.1
 
-dev_dependencies: 
+dev_dependencies:
   flutter_lints: ^2.0.0
-  flutter_test: 
+  flutter_test:
     sdk: flutter
-    
+
 get_cli:
-    sub_folder: false
+  sub_folder: false
 
-flutter: 
+flutter:
   uses-material-design: true
-  assets: 
+  assets:
     - assets/images/
-    
-  fonts:
-  - family: NunitoSans
-    fonts:
-      - asset: assets/fonts/Nunito_Sans/NunitoSans-Light.ttf
-        weight: 300
-      - asset: assets/fonts/Nunito_Sans/NunitoSans-Regular.ttf
-        style: normal
-      - asset: assets/fonts/Nunito_Sans/NunitoSans-SemiBold.ttf
-        weight: 500
-      - asset: assets/fonts/Nunito_Sans/NunitoSans-Bold.ttf
-        weight: 700
-      - asset: assets/fonts/Nunito_Sans/NunitoSans-ExtraBold.ttf
-        weight: 700
 
+  fonts:
+    - family: NunitoSans
+      fonts:
+        - asset: assets/fonts/Nunito_Sans/NunitoSans-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Nunito_Sans/NunitoSans-Regular.ttf
+          style: normal
+        - asset: assets/fonts/Nunito_Sans/NunitoSans-SemiBold.ttf
+          weight: 500
+        - asset: assets/fonts/Nunito_Sans/NunitoSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Nunito_Sans/NunitoSans-ExtraBold.ttf
+          weight: 700

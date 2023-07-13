@@ -9,6 +9,10 @@ class EventDetailController extends GetxController {
 
   final event = Event().obs;
 
+  final isLoading = false.obs;
+
+  final isDragging = false.obs;
+
   final count = 0.obs;
   @override
   void onInit() {
