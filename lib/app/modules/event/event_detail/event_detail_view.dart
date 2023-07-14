@@ -1,3 +1,4 @@
+import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -18,18 +19,20 @@ class EventDetailView extends GetView<EventDetailController> {
             Expanded(
               flex: 5,
               child: Center(
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  color: const Color(0xFFCFCCCC),
-                  child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.cloud_upload,
-                          size: 100,
-                        ),
-                        Text('Fotos de Indentificação aqui'),
-                      ]),
+                child: DropTarget(
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    color: const Color(0xFFCFCCCC),
+                    child: const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.cloud_upload,
+                            size: 100,
+                          ),
+                          Text('Fotos de Indentificação aqui'),
+                        ]),
+                  ),
                 ),
               ),
             ),
