@@ -1,0 +1,9 @@
+{
+    "id": "1",
+    "image": "image.jpg",
+    "size": 12345.123,
+    "price": 3.23,
+    "type": "image/jpeg",
+    "url": "http://example.org/files/image.jpg",
+    "thumbnailUrl": "http://example.org/files/thumbnail/image.jpg"
+}
