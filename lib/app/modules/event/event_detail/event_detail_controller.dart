@@ -21,6 +21,8 @@ class EventDetailController extends GetxController {
 
   final RxList<EventImage> evnentImages = <EventImage>[].obs;
 
+  List permitedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+
   @override
   void onInit() {
     super.onInit();
@@ -34,15 +36,40 @@ class EventDetailController extends GetxController {
 
   Future<void> addEventIdentification(DropDoneDetails details) async {
     for (final file in details.files) {
-      if (file.type == 'image') {
-        final response = await _repository.addEventIdentification(
-          id!,
-          file.name,
-          file.bytes,
-        );
-        eventIdentfications
-            .add(EventIdentification.fromJson(response.data['data']));
+      final String mimeType = file.mimeType ?? '';
+
+      if (!permitedMimeTypes.contains(mimeType)) {
+        final string = 'Tipo de arquivo não permitido: $mimeType';
       }
+      eventIdentfications
+          .add(EventIdentification.fromJson(response.data['data']));
+    }
+  }
+
+  Future<void> addEventImages(DropDoneDetails details) async {
+    for (final file in details.files) {
+      final String mimeType = file.mimeType ?? '';
+
+      if (!permitedMimeTypes.contains(mimeType)) {
+        final String errorMessage = 'Tipo de arquivo não permitido: $mimeType';
+      }
+
+      final size = await file.length() / (1024 * 1024);
+
+      if (size > 20) {
+        const String errorMessage =
+            'Arquivo muito grande, tamanho máximo: 20MB';
+      }
+
+      evnentImages.add(EventImage(
+        id: '1',
+        name: 'name',
+        size: size,
+        price: 1,
+        type: 'type',
+        url: 'url',
+        thumbnailUrl: 'thumbnailUrl',
+      ));
     }
   }
 }
