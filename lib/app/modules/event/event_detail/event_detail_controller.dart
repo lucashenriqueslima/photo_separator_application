@@ -48,26 +48,21 @@ class EventDetailController extends GetxController {
   }
 
   Future<void> addTemporaryEventImages(DropDoneDetails details) async {
-    for (int index = 0; index < details.files.length; index++) {
-      final file = details.files[index];
-      final String mimeType = file.mimeType ?? '';
+    for (final file in details.files) {
       String errorMessage = '';
 
-      if (!permitedMimeTypes.contains(mimeType)) {
-        errorMessage = 'Tipo de arquivo não permitido: $mimeType';
+      if (!permitedMimeTypes.contains(file.mimeType)) {
+        errorMessage = 'Formato de arquivo não permitido: ${file.mimeType}';
       }
 
-      final size = await file.length() / (1024 * 1024);
+      final sizeInMb = await file.length() / (1024 * 1024);
 
-      if (size > 20) {
+      if (sizeInMb > 20) {
         errorMessage = 'Arquivo muito pesado, tamanho máximo: 20MB';
       }
 
       temporaryEventImages.add(EventImage(
-        id: index,
-        name: 'name',
-        size: size,
-        price: size * 0.5,
+        image: file,
         errorMessage: errorMessage,
       ));
     }

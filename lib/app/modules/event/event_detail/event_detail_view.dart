@@ -79,7 +79,8 @@ class EventDetailView extends GetView<EventDetailController> {
               flex: 2,
               child: Obx(
                 () => DropTarget(
-                  onDragDone: (detail) async {},
+                  onDragDone: (detail) async =>
+                      controller.addTemporaryEventImages(detail),
                   onDragEntered: (_) =>
                       controller.dropZonePhotosIsHovered.value = true,
                   onDragExited: (_) =>
