@@ -1,9 +1,12 @@
+
 import 'package:desktop_drop/desktop_drop.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_separator/app/data/models/event_identification_model.dart';
 import 'package:photo_separator/app/data/models/event_image_model.dart';
 import 'package:photo_separator/app/data/models/event_model.dart';
 import 'package:photo_separator/app/data/repositories/event_repository.dart';
+import 'package:photo_separator/app/widgets/app_dialog.dart';
 
 class EventDetailController extends GetxController {
   final EventRepository _repository = EventRepository();
@@ -20,6 +23,7 @@ class EventDetailController extends GetxController {
       <EventIdentification>[].obs;
 
   final RxList<EventImage> temporaryEventImages = <EventImage>[].obs;
+  final RxBool temporaryEventImagesIsLoading = false.obs;
   final RxList<EventImage> evnentImages = <EventImage>[].obs;
 
   List permitedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -48,6 +52,54 @@ class EventDetailController extends GetxController {
   }
 
   Future<void> addTemporaryEventImages(DropDoneDetails details) async {
+    temporaryEventImages.clear();
+    temporaryEventImagesIsLoading.value = true;
+
+    Get.dialog(
+      AppDialog(
+        title: 'Carregando imagens',
+        content: Obx(
+          () => temporaryEventImagesIsLoading.value
+              ? const Center(child: CircularProgressIndicator())
+              : Column(
+                  children: [
+                    const Text('Imagens carregadas com sucesso!'),
+                    const Text('Valor: '),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey[600]!,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      constraints: const BoxConstraints(
+                          maxHeight: 500, minHeight: 56.0, maxWidth: 500),
+                      child: Obx(() => ListView.builder(
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                leading: Image.file()
+                                title: Text(temporaryEventImages[index]
+                                    .image!
+                                    .name
+                                    .toString()),
+                                subtitle: const Text('80m'),
+                              );
+                            },
+                            itemCount: temporaryEventImages.length,
+                          )),
+                    ),
+                  ],
+                ),
+        ),
+      ),
+    );
+
     for (final file in details.files) {
       String errorMessage = '';
 
@@ -66,6 +118,8 @@ class EventDetailController extends GetxController {
         errorMessage: errorMessage,
       ));
     }
+
+    temporaryEventImagesIsLoading.value = false;
   }
 
   Future<void> addEventImages() async {
