@@ -1,10 +1,11 @@
-
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:photo_separator/app/data/models/event_identification_model.dart';
 import 'package:photo_separator/app/data/models/event_image_model.dart';
 import 'package:photo_separator/app/data/models/event_model.dart';
+import 'package:photo_separator/app/data/models/event_temporary_image.dart';
 import 'package:photo_separator/app/data/repositories/event_repository.dart';
 import 'package:photo_separator/app/widgets/app_dialog.dart';
 
@@ -22,8 +23,9 @@ class EventDetailController extends GetxController {
   final RxList<EventIdentification> eventIdentfications =
       <EventIdentification>[].obs;
 
-  final RxList<EventImage> temporaryEventImages = <EventImage>[].obs;
-  final RxBool temporaryEventImagesIsLoading = false.obs;
+  final RxList<EventTemporaryImage> eventTemporaryImage =
+      <EventTemporaryImage>[].obs;
+  final RxBool eventTemporaryImagesIsLoading = false.obs;
   final RxList<EventImage> evnentImages = <EventImage>[].obs;
 
   List permitedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -51,15 +53,16 @@ class EventDetailController extends GetxController {
     // }
   }
 
-  Future<void> addTemporaryEventImages(DropDoneDetails details) async {
-    temporaryEventImages.clear();
-    temporaryEventImagesIsLoading.value = true;
+  Future<void> addEventImagesTemporary(List<XFile> files) async {
+    eventTemporaryImage.clear();
+    eventTemporaryImagesIsLoading.value = true;
 
     Get.dialog(
       AppDialog(
-        title: 'Carregando imagens',
+        title: 'Imagens carregadas com sucesso!',
+        primaryButtonLabel: 'Confirmar',
         content: Obx(
-          () => temporaryEventImagesIsLoading.value
+          () => eventTemporaryImagesIsLoading.value
               ? const Center(child: CircularProgressIndicator())
               : Column(
                   children: [
@@ -78,21 +81,25 @@ class EventDetailController extends GetxController {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       constraints: const BoxConstraints(
-                          maxHeight: 500, minHeight: 56.0, maxWidth: 500),
-                      child: Obx(() => ListView.builder(
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              return ListTile(
-                                leading: Image.file()
-                                title: Text(temporaryEventImages[index]
-                                    .image!
-                                    .name
-                                    .toString()),
-                                subtitle: const Text('80m'),
-                              );
-                            },
-                            itemCount: temporaryEventImages.length,
-                          )),
+                          maxHeight: 400, minHeight: 300.0, maxWidth: 400),
+                      child: Obx(
+                        () => ListView.builder(
+                          shrinkWrap: true,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.amber,
+                                child: Text((index + 1).toString()),
+                              ),
+                              title:
+                                  Text(eventTemporaryImage[index].image!.name),
+                              subtitle: Text(
+                                  'Tamanho: ${eventTemporaryImage[index].size}'),
+                            );
+                          },
+                          itemCount: eventTemporaryImage.length,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -100,30 +107,31 @@ class EventDetailController extends GetxController {
       ),
     );
 
-    for (final file in details.files) {
+    for (final file in files) {
       String errorMessage = '';
 
       if (!permitedMimeTypes.contains(file.mimeType)) {
         errorMessage = 'Formato de arquivo não permitido: ${file.mimeType}';
       }
 
-      final sizeInMb = await file.length() / (1024 * 1024);
+      final size = await file.length();
 
-      if (sizeInMb > 20) {
+      if (size > 20000) {
         errorMessage = 'Arquivo muito pesado, tamanho máximo: 20MB';
       }
 
-      temporaryEventImages.add(EventImage(
+      eventTemporaryImage.add(EventTemporaryImage(
         image: file,
+        size: size,
         errorMessage: errorMessage,
       ));
     }
 
-    temporaryEventImagesIsLoading.value = false;
+    eventTemporaryImagesIsLoading.value = false;
   }
 
   Future<void> addEventImages() async {
-    for (var element in temporaryEventImages) {
+    for (var element in eventTemporaryImage) {
       if (element.errorMessage != '') {
         return;
       }

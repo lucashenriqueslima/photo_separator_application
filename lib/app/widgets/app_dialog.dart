@@ -8,7 +8,6 @@ import 'package:photo_separator/app/themes/styles/app_text_styles.dart';
 class AppDialog extends StatelessWidget {
   final String title;
   final Widget content;
-  final bool? hasPrimaryButton;
   final String? primaryButtonLabel;
   final VoidCallback? onPrimaryButtonPressed;
   final bool isPrimaryButtonDisabled;
@@ -20,7 +19,6 @@ class AppDialog extends StatelessWidget {
     super.key,
     required this.title,
     required this.content,
-    this.hasPrimaryButton = false,
     this.primaryButtonLabel,
     this.onPrimaryButtonPressed,
     this.isPrimaryButtonDisabled = false,
@@ -31,6 +29,8 @@ class AppDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasPrimaryButton = primaryButtonLabel != null ? true : false;
+
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -79,7 +79,7 @@ class AppDialog extends StatelessWidget {
             Padding(
               padding: EdgeInsets.fromLTRB(7, isScrollable! ? 4 : 0, 7, 4),
               child: Row(
-                mainAxisAlignment: hasPrimaryButton!
+                mainAxisAlignment: hasPrimaryButton
                     ? MainAxisAlignment.spaceBetween
                     : MainAxisAlignment.center,
                 children: [
@@ -96,28 +96,24 @@ class AppDialog extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    child: hasPrimaryButton!
-                        ? Obx(
-                            () => TextButton(
-                              onPressed: () => isPrimaryButtonDisabled
-                                  ? null
-                                  : onPrimaryButtonPressed!(),
-                              style:
-                                  context.appStyles.dialogTextButton.copyWith(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                  isPrimaryButtonDisabled
-                                      ? Colors.grey[600]!
-                                      : Colors.grey[200]!,
-                                ),
+                    child: hasPrimaryButton
+                        ? TextButton(
+                            onPressed: () => isPrimaryButtonDisabled
+                                ? null
+                                : onPrimaryButtonPressed!(),
+                            style: context.appStyles.dialogTextButton.copyWith(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                isPrimaryButtonDisabled
+                                    ? Colors.grey[600]!
+                                    : Colors.grey[200]!,
                               ),
-                              child: FittedBox(
-                                child: Text(
-                                  primaryButtonLabel!,
-                                  style: context.appTextStyles.textButtonLabel
-                                      .copyWith(
-                                    color: context.primary,
-                                  ),
+                            ),
+                            child: FittedBox(
+                              child: Text(
+                                primaryButtonLabel!,
+                                style: context.appTextStyles.textButtonLabel
+                                    .copyWith(
+                                  color: context.primary,
                                 ),
                               ),
                             ),
@@ -125,7 +121,7 @@ class AppDialog extends StatelessWidget {
                         : null,
                   ),
                 ],
-              ),
+              ).paddingSymmetric(vertical: 10),
             ),
           ],
         ),

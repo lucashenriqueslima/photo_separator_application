@@ -1,9 +1,6 @@
-import 'package:image_picker/image_picker.dart';
-
 class EventImage {
   int? id;
   int? eventId;
-  XFile? image;
   String? name;
   double? size;
   double? price;
@@ -12,17 +9,17 @@ class EventImage {
   String? url;
   String? thumbnailUrl;
 
-  EventImage(
-      {this.id,
-      this.eventId,
-      this.image,
-      this.name,
-      this.size,
-      this.price,
-      this.type,
-      this.errorMessage,
-      this.url,
-      this.thumbnailUrl});
+  EventImage({
+    this.id,
+    this.eventId,
+    this.name,
+    this.size,
+    this.price,
+    this.type,
+    this.errorMessage,
+    this.url,
+    this.thumbnailUrl,
+  });
 
   EventImage.fromJson(Map<String, dynamic> json) {
     id = json['id'];
