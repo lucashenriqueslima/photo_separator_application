@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:photo_separator/app/core/client/http_client.dart';
 import 'package:path/path.dart' as path;
 import 'package:photo_separator/app/data/models/event_temporary_image.dart';
-import 'package:http_parser/http_parser.dart';
 
 class HttpProvider {
   static HttpProvider get to => HttpProvider();
@@ -53,7 +52,6 @@ class HttpProvider {
       await MultipartFile.fromFile(
         imagePath,
         filename: imageName,
-        contentType: MediaType('application', 'octet-stream'),
       ),
     ));
 
@@ -61,6 +59,7 @@ class HttpProvider {
       url: '/events/$eventId/images',
       method: HttpMethods.post,
       body: formData,
+      bodyHasFile: true,
     );
 
     return response;

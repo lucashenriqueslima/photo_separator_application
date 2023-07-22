@@ -23,9 +23,9 @@ class EventDetailController extends GetxController {
   final RxList<EventIdentification> eventIdentfications =
       <EventIdentification>[].obs;
 
-  final RxList<EventTemporaryImage> eventTemporaryImage =
+  final RxList<EventTemporaryImage> temporaryImages =
       <EventTemporaryImage>[].obs;
-  final RxBool eventTemporaryImagesIsLoading = false.obs;
+  final RxBool temporaryImagesIsLoading = false.obs;
   final RxList<EventImage> evnentImages = <EventImage>[].obs;
 
   List permitedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -54,15 +54,15 @@ class EventDetailController extends GetxController {
   }
 
   Future<void> addEventImagesTemporary(List<XFile> files) async {
-    eventTemporaryImage.clear();
-    eventTemporaryImagesIsLoading.value = true;
+    temporaryImages.clear();
+    temporaryImagesIsLoading.value = true;
 
     Get.dialog(
       AppDialog(
         title: 'Imagens carregadas com sucesso!',
         primaryButtonLabel: 'Confirmar',
         content: Obx(
-          () => eventTemporaryImagesIsLoading.value
+          () => temporaryImagesIsLoading.value
               ? const Center(child: CircularProgressIndicator())
               : Column(
                   children: [
@@ -91,13 +91,12 @@ class EventDetailController extends GetxController {
                                 backgroundColor: Colors.amber,
                                 child: Text((index + 1).toString()),
                               ),
-                              title:
-                                  Text(eventTemporaryImage[index].image!.name),
+                              title: Text(temporaryImages[index].image!.name),
                               subtitle: Text(
-                                  'Tamanho: ${eventTemporaryImage[index].size}'),
+                                  'Tamanho: ${temporaryImages[index].size}'),
                             );
                           },
-                          itemCount: eventTemporaryImage.length,
+                          itemCount: temporaryImages.length,
                         ),
                       ),
                     ),
@@ -120,18 +119,32 @@ class EventDetailController extends GetxController {
         errorMessage = 'Arquivo muito pesado, tamanho máximo: 20MB';
       }
 
-      eventTemporaryImage.add(EventTemporaryImage(
+      temporaryImages.add(EventTemporaryImage(
         image: file,
         size: size,
         errorMessage: errorMessage,
       ));
     }
 
-    eventTemporaryImagesIsLoading.value = false;
+    temporaryImagesIsLoading.value = false;
+  }
+
+  acceptTemporaryImages() async {
+    for (final temporaryImages in temporaryImages) {
+      if (temporaryImages.errorMessage != '') {
+        return;
+      }
+
+      final response = await _repository.addEventImage(
+        temporaryImages,
+        event.value.id,
+      );
+    }
+    Get.back();
   }
 
   Future<void> addEventImages() async {
-    for (var element in eventTemporaryImage) {
+    for (var element in temporaryImages) {
       if (element.errorMessage != '') {
         return;
       }

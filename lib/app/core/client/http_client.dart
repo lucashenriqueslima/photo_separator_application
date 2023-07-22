@@ -64,6 +64,7 @@ class HttpClient {
     Map? headers,
     dynamic body,
     bool useDefaultUrl = true,
+    bool bodyHasFile = false,
   }) async {
     _dio.options.connectTimeout = 10000;
     _dio.options.receiveTimeout = 10000;
@@ -71,7 +72,9 @@ class HttpClient {
     final deafaultHeaders =
         headers?.cast<String, String>() ?? <String, String>{}
           ..addAll({
-            'Content-Type': Headers.formUrlEncodedContentType,
+            'Content-Type': bodyHasFile
+                ? 'multipart/form-data'
+                : Headers.formUrlEncodedContentType,
             'Accept': 'application/json',
             'Authorization': 'Bearer ${AuthService.to.user.value.token}'
           });
