@@ -133,10 +133,68 @@ class EventDetailView extends GetView<EventDetailController> {
             ),
           ],
         ),
-        const Row(
+        Row(
           children: [
-            Expanded(flex: 5, child: SizedBox()),
-            Expanded(flex: 2, child: SizedBox())
+            const Expanded(flex: 5, child: SizedBox()),
+            Expanded(
+              flex: 2,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey[600]!,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    constraints: const BoxConstraints(
+                        maxHeight: 400, minHeight: 300.0, maxWidth: 400),
+                    child: Obx(
+                      () => controller.temporaryImages.isEmpty ||
+                              controller.eventImages.isEmpty
+                          ? const Center(
+                              child: Text('Nenhuma imagem carregada'),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                return controller.eventImages.length > index
+                                    ? ListTile(
+                                        leading: CircleAvatar(
+                                          backgroundColor: Colors.amber,
+                                          child: Text((index + 1).toString()),
+                                        ),
+                                        title: Text(controller
+                                            .temporaryImages[index]
+                                            .image!
+                                            .name),
+                                        subtitle: Text(
+                                            'Tamanho: ${controller.temporaryImages[index].size}'),
+                                      )
+                                    : ListTile(
+                                        leading: CircleAvatar(
+                                          backgroundColor: Colors.amber,
+                                          child: Text((index + 1).toString()),
+                                        ),
+                                        title: Text(controller
+                                            .eventImages[index].name!),
+                                        subtitle: Text(
+                                            'Tamanho: ${controller.eventImages[index].size}'),
+                                      );
+                              },
+                              itemCount: controller.temporaryImages.length +
+                                  controller.eventImages.length,
+                            ),
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         )
       ],

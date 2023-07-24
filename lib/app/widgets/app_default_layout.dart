@@ -103,7 +103,7 @@ class AppDefaultLayout extends StatelessWidget {
         ),
         ...children
       ],
-    ).paddingSymmetric(horizontal: 20.0);
+    ).paddingSymmetric(horizontal: 20.0, vertical: 20);
   }
 }
 

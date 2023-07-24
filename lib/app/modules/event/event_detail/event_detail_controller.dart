@@ -100,7 +100,8 @@ class EventDetailController extends GetxController {
                                   'Tamanho: ${temporaryImages[index].size}'),
                             );
                           },
-                          itemCount: temporaryImages.length,
+                          itemCount:
+                              temporaryImages.length + eventImages.length,
                         ),
                       ),
                     ),
@@ -133,19 +134,8 @@ class EventDetailController extends GetxController {
     temporaryImagesIsLoading.value = false;
   }
 
-  acceptTemporaryImages() async {
+  Future<void> acceptTemporaryImages() async {
     Get.back();
-
-    // temporaryImages.clear();
-
-    eventImages.addAll(
-      temporaryImages.map(
-        (e) => EventImage(
-          size: e.size,
-          name: e.image!.name,
-        ),
-      ),
-    );
 
     // Use `Future.wait` to run the requests simultaneously.
     final responses = await Future.wait(
@@ -157,11 +147,13 @@ class EventDetailController extends GetxController {
 
         image.bytes = await FileUtils.encodeFileToBase64(image.image!);
 
-        return await _eventImageRepository.add(image, eventId);
+        final response = await _eventImageRepository.add(image, eventId);
+
+        eventImages.add(EventImage.fromJson(response.data['data']));
       }),
     );
 
-    // Add the responses to the list of event images.
+    print(responses);
   }
 
   Future<void> addEventImages() async {

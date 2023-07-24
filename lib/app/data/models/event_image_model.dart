@@ -5,6 +5,7 @@ class EventImage {
   int? size;
   double? price;
   String? type;
+  String? status;
   String? errorMessage;
 
   EventImage({
@@ -13,6 +14,7 @@ class EventImage {
     this.size,
     this.price,
     this.type,
+    this.status,
     this.errorMessage,
   });
 
@@ -22,6 +24,7 @@ class EventImage {
     size = json['size'];
     price = json['price'];
     type = json['type'];
+    status = json['status'];
     errorMessage = json['errorMessage'];
   }
 
@@ -32,6 +35,7 @@ class EventImage {
     data['size'] = size;
     data['price'] = price;
     data['type'] = type;
+    data['status'] = status;
     data['errorMessage'] = errorMessage;
     return data;
   }
