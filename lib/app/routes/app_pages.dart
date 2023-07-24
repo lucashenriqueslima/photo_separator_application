@@ -39,7 +39,7 @@ class AppPages {
           binding: EventListBinding(),
         ),
         GetPage(
-          name: '${_Paths.EVENT_DETAIL}/:id',
+          name: '${_Paths.EVENT_DETAIL}/:eventId',
           page: () => const EventDetailView(),
           binding: EventDetailBinding(),
           transition: Transition.noTransition,

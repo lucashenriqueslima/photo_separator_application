@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:photo_separator/app/core/client/http_client.dart';
-import 'package:path/path.dart' as path;
 import 'package:photo_separator/app/data/models/event_temporary_image.dart';
 
 class HttpProvider {
@@ -30,7 +29,7 @@ class HttpProvider {
     return response;
   }
 
-  getEventById(String id) async {
+  getEventById(id) async {
     final response = await _httpClient.request(
       url: '/events/$id',
       method: HttpMethods.get,
@@ -39,21 +38,12 @@ class HttpProvider {
     return response;
   }
 
-  addEventImage(EventTemporaryImage eventTemporaryImage, int? eventId) async {
-    final formData = FormData();
-
-    final imagePath = path.basename(
-        '${eventTemporaryImage.image!.path}${eventTemporaryImage.image!.name}');
-
-    final imageName = path.basename(imagePath);
-
-    formData.files.add(MapEntry(
-      'image',
-      await MultipartFile.fromFile(
-        imagePath,
-        filename: imageName,
-      ),
-    ));
+  addEventImage(EventTemporaryImage eventTemporaryImage, String eventId) async {
+    FormData formData = FormData.fromMap({
+      'image': eventTemporaryImage.bytes,
+      'name': eventTemporaryImage.image!.name,
+      'size': eventTemporaryImage.size,
+    });
 
     final response = await _httpClient.request(
       url: '/events/$eventId/images',

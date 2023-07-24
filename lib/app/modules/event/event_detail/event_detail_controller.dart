@@ -2,17 +2,20 @@ import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:photo_separator/app/core/helpers/file/file_utils.dart';
 import 'package:photo_separator/app/data/models/event_identification_model.dart';
 import 'package:photo_separator/app/data/models/event_image_model.dart';
 import 'package:photo_separator/app/data/models/event_model.dart';
 import 'package:photo_separator/app/data/models/event_temporary_image.dart';
+import 'package:photo_separator/app/data/repositories/event_image_repository.dart';
 import 'package:photo_separator/app/data/repositories/event_repository.dart';
 import 'package:photo_separator/app/widgets/app_dialog.dart';
 
 class EventDetailController extends GetxController {
-  final EventRepository _repository = EventRepository();
+  final EventRepository _eventRepository = EventRepository();
+  final EventImageRepository _eventImageRepository = EventImageRepository();
 
-  final id = Get.parameters['id'];
+  final eventId = Get.parameters['eventId'] ?? '';
 
   final event = Event().obs;
 
@@ -26,7 +29,7 @@ class EventDetailController extends GetxController {
   final RxList<EventTemporaryImage> temporaryImages =
       <EventTemporaryImage>[].obs;
   final RxBool temporaryImagesIsLoading = false.obs;
-  final RxList<EventImage> evnentImages = <EventImage>[].obs;
+  final RxList<EventImage> eventImages = <EventImage>[].obs;
 
   List permitedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png'];
 
@@ -37,7 +40,7 @@ class EventDetailController extends GetxController {
   }
 
   Future<void> getEvent() async {
-    final response = await _repository.getEventById(id!);
+    final response = await _eventRepository.getEventById(eventId);
     event.value = Event.fromJson(response.data['data']);
   }
 
@@ -61,6 +64,7 @@ class EventDetailController extends GetxController {
       AppDialog(
         title: 'Imagens carregadas com sucesso!',
         primaryButtonLabel: 'Confirmar',
+        onPrimaryButtonPressed: acceptTemporaryImages,
         content: Obx(
           () => temporaryImagesIsLoading.value
               ? const Center(child: CircularProgressIndicator())
@@ -115,9 +119,9 @@ class EventDetailController extends GetxController {
 
       final size = await file.length();
 
-      if (size > 20000) {
-        errorMessage = 'Arquivo muito pesado, tamanho máximo: 20MB';
-      }
+      // if (size > 20000) {
+      //   errorMessage = 'Arquivo muito pesado, tamanho máximo: 20MB';
+      // }
 
       temporaryImages.add(EventTemporaryImage(
         image: file,
@@ -130,17 +134,34 @@ class EventDetailController extends GetxController {
   }
 
   acceptTemporaryImages() async {
-    for (final temporaryImages in temporaryImages) {
-      if (temporaryImages.errorMessage != '') {
-        return;
-      }
-
-      final response = await _repository.addEventImage(
-        temporaryImages,
-        event.value.id,
-      );
-    }
     Get.back();
+
+    // temporaryImages.clear();
+
+    eventImages.addAll(
+      temporaryImages.map(
+        (e) => EventImage(
+          size: e.size,
+          name: e.image!.name,
+        ),
+      ),
+    );
+
+    // Use `Future.wait` to run the requests simultaneously.
+    final responses = await Future.wait(
+      temporaryImages.map((image) async {
+        // If the image has an error message, don't add it to the list of responses.
+        // if (image.errorMessage != '') {
+        //   return null;
+        // }
+
+        image.bytes = await FileUtils.encodeFileToBase64(image.image!);
+
+        return await _eventImageRepository.add(image, eventId);
+      }),
+    );
+
+    // Add the responses to the list of event images.
   }
 
   Future<void> addEventImages() async {
