@@ -42,7 +42,6 @@ class EventDetailView extends GetView<EventDetailController> {
                       ),
                     ),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
                           controller.dropZoneIdenficationIsHovered.value
@@ -139,10 +138,16 @@ class EventDetailView extends GetView<EventDetailController> {
             Expanded(
               flex: 2,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(
                     height: 40,
                   ),
+                  Obx(() => Visibility(
+                        visible: controller.temporaryImages.isNotEmpty,
+                        child: Text(
+                            "Faltam ${controller.temporaryImages.length.toString()} imagens."),
+                      )),
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
@@ -155,40 +160,27 @@ class EventDetailView extends GetView<EventDetailController> {
                     constraints: const BoxConstraints(
                         maxHeight: 400, minHeight: 300.0, maxWidth: 400),
                     child: Obx(
-                      () => controller.temporaryImages.isEmpty ||
-                              controller.eventImages.isEmpty
+                      () => controller.eventImages.isEmpty
                           ? const Center(
                               child: Text('Nenhuma imagem carregada'),
                             )
                           : ListView.builder(
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) {
-                                return controller.eventImages.length > index
-                                    ? ListTile(
-                                        leading: CircleAvatar(
-                                          backgroundColor: Colors.amber,
-                                          child: Text((index + 1).toString()),
-                                        ),
-                                        title: Text(controller
-                                            .temporaryImages[index]
-                                            .image!
-                                            .name),
-                                        subtitle: Text(
-                                            'Tamanho: ${controller.temporaryImages[index].size}'),
-                                      )
-                                    : ListTile(
-                                        leading: CircleAvatar(
-                                          backgroundColor: Colors.amber,
-                                          child: Text((index + 1).toString()),
-                                        ),
-                                        title: Text(controller
-                                            .eventImages[index].name!),
-                                        subtitle: Text(
-                                            'Tamanho: ${controller.eventImages[index].size}'),
-                                      );
+                                return ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundColor: Colors.amber,
+                                    child: Text((index + 1).toString()),
+                                  ),
+                                  title: Text(controller
+                                      .eventImages[index].name!
+                                      .split('/')
+                                      .last),
+                                  subtitle: Text(
+                                      'Tamanho: ${controller.eventImages[index].size}'),
+                                );
                               },
-                              itemCount: controller.temporaryImages.length +
-                                  controller.eventImages.length,
+                              itemCount: controller.eventImages.length,
                             ),
                     ),
                   ),

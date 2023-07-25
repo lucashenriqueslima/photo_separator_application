@@ -6,7 +6,6 @@ class EventImage {
   double? price;
   String? type;
   String? status;
-  String? errorMessage;
 
   EventImage({
     this.id,
@@ -15,7 +14,6 @@ class EventImage {
     this.price,
     this.type,
     this.status,
-    this.errorMessage,
   });
 
   EventImage.fromJson(Map<String, dynamic> json) {
@@ -25,7 +23,6 @@ class EventImage {
     price = json['price'];
     type = json['type'];
     status = json['status'];
-    errorMessage = json['errorMessage'];
   }
 
   Map<String, dynamic> toJson() {
@@ -36,7 +33,6 @@ class EventImage {
     data['price'] = price;
     data['type'] = type;
     data['status'] = status;
-    data['errorMessage'] = errorMessage;
     return data;
   }
 }

@@ -100,8 +100,7 @@ class EventDetailController extends GetxController {
                                   'Tamanho: ${temporaryImages[index].size}'),
                             );
                           },
-                          itemCount:
-                              temporaryImages.length + eventImages.length,
+                          itemCount: temporaryImages.length,
                         ),
                       ),
                     ),
@@ -144,16 +143,21 @@ class EventDetailController extends GetxController {
         // if (image.errorMessage != '') {
         //   return null;
         // }
-
         image.bytes = await FileUtils.encodeFileToBase64(image.image!);
 
         final response = await _eventImageRepository.add(image, eventId);
 
-        eventImages.add(EventImage.fromJson(response.data['data']));
+        final eventImage = EventImage.fromJson(response.data['data']);
+
+        eventImages.add(eventImage);
+
+        temporaryImages.remove(image);
       }),
     );
 
-    print(responses);
+    temporaryImages.clear();
+
+    // print(responses);
   }
 
   Future<void> addEventImages() async {
