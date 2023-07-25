@@ -54,8 +54,7 @@ class AppButton extends StatelessWidget {
                 : Text(
                     label,
                     style: textStyle ??
-                        context.appTextStyles.textBold
-                            .copyWith(fontSize: 20, color: context.secondary),
+                        context.appTextStyles.textBold.copyWith(fontSize: 1000),
                   ),
           )),
     );

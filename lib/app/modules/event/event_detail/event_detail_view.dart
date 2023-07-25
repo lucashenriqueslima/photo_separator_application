@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:photo_separator/app/core/helpers/constants/constants.dart';
+import 'package:photo_separator/app/themes/styles/app_colors.dart';
+import 'package:photo_separator/app/widgets/app_button.dart';
 import 'package:photo_separator/app/widgets/app_default_layout.dart';
 
 import 'event_detail_controller.dart';
@@ -27,6 +29,8 @@ class EventDetailView extends GetView<EventDetailController> {
                       controller.dropZoneIdenficationIsHovered.value = true,
                   onDragExited: (_) =>
                       controller.dropZoneIdenficationIsHovered.value = false,
+                  onDragDone: (details) =>
+                      controller.addEventIdentification(details.files),
                   child: Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -134,7 +138,28 @@ class EventDetailView extends GetView<EventDetailController> {
         ),
         Row(
           children: [
-            const Expanded(flex: 5, child: SizedBox()),
+            Expanded(
+              flex: 5,
+              child: Obx(
+                () => GridView.builder(
+                  itemCount: controller.eventImages.length,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 5),
+                  itemBuilder: (context, index) {
+                    return Container(
+                        width: 30,
+                        height: 30,
+                        color: context.primary,
+                        child: Image.network(
+                          "https://studiom-arquivos-formandos-publicos.s3.amazonaws.com/${controller.eventImages[index].name!}",
+                          fit: BoxFit.cover,
+                        )).paddingAll(5);
+                  },
+                ),
+              ),
+            ),
             Expanded(
               flex: 2,
               child: Column(
@@ -184,6 +209,10 @@ class EventDetailView extends GetView<EventDetailController> {
                             ),
                     ),
                   ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  AppButton(label: 'Fazer Separação', onPressed: () {})
                 ],
               ),
             )

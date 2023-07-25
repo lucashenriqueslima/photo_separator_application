@@ -54,4 +54,19 @@ class HttpProvider {
 
     return response;
   }
+
+  addEventIdentification(String bytes, String name, String eventId) async {
+    FormData formData = FormData.fromMap({
+      'image': bytes,
+      'name': name,
+    });
+
+    final response = await _httpClient.request(
+      url: '/events/$eventId/identifications',
+      method: HttpMethods.post,
+      body: formData,
+    );
+
+    return response;
+  }
 }

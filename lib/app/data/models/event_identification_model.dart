@@ -3,6 +3,7 @@ class EventIdentification {
   String? name;
   String? email;
   String? phone;
+  String? bytes;
   String? image;
 
   EventIdentification({this.id, this.name, this.email, this.phone, this.image});

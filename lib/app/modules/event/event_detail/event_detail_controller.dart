@@ -1,4 +1,3 @@
-import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,12 +6,15 @@ import 'package:photo_separator/app/data/models/event_identification_model.dart'
 import 'package:photo_separator/app/data/models/event_image_model.dart';
 import 'package:photo_separator/app/data/models/event_model.dart';
 import 'package:photo_separator/app/data/models/event_temporary_image.dart';
+import 'package:photo_separator/app/data/repositories/event_identification_repository.dart';
 import 'package:photo_separator/app/data/repositories/event_image_repository.dart';
 import 'package:photo_separator/app/data/repositories/event_repository.dart';
 import 'package:photo_separator/app/widgets/app_dialog.dart';
 
 class EventDetailController extends GetxController {
   final EventRepository _eventRepository = EventRepository();
+  final EventIdentificationRepository eventIdentificationRepository =
+      EventIdentificationRepository();
   final EventImageRepository _eventImageRepository = EventImageRepository();
 
   final eventId = Get.parameters['eventId'] ?? '';
@@ -44,16 +46,25 @@ class EventDetailController extends GetxController {
     event.value = Event.fromJson(response.data['data']);
   }
 
-  Future<void> addEventIdentification(DropDoneDetails details) async {
-    // for (final file in details.files) {
-    //   final String mimeType = file.mimeType ?? '';
+  Future<void> addEventIdentification(List<XFile> files) async {
+    for (final file in files) {
+      final size = await file.length();
 
-    //   if (!permitedMimeTypes.contains(mimeType)) {
-    //     final string = 'Tipo de arquivo não permitido: $mimeType';
-    //   }
-    //   eventIdentfications
-    //       .add(EventIdentification.fromJson(response.data['data']));
-    // }
+      // if (size > 20000) {
+      //   return;
+      // }
+
+      final bytes = await FileUtils.encodeFileToBase64(file);
+
+      final response = await eventIdentificationRepository.add(
+        bytes,
+        file.name,
+        eventId,
+      );
+
+      final eventIdentification =
+          EventIdentification.fromJson(response.data['data']);
+    }
   }
 
   Future<void> addEventImagesTemporary(List<XFile> files) async {
