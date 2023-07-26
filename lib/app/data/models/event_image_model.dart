@@ -1,3 +1,6 @@
+//TODO: make a named constructor for temporary data
+//TODO: Rename to Image
+
 class EventImage {
   int? id;
   int? eventId;

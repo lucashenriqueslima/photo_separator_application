@@ -142,7 +142,7 @@ class EventDetailView extends GetView<EventDetailController> {
               flex: 5,
               child: Obx(
                 () => GridView.builder(
-                  itemCount: controller.eventImages.length,
+                  itemCount: controller.eventIdentfications.length,
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -153,7 +153,7 @@ class EventDetailView extends GetView<EventDetailController> {
                         height: 30,
                         color: context.primary,
                         child: Image.network(
-                          "https://studiom-arquivos-formandos-publicos.s3.amazonaws.com/${controller.eventImages[index].name!}",
+                          "https://studiom-arquivos-formandos-publicos.s3.amazonaws.com/${controller.eventIdentfications[index].name!}",
                           fit: BoxFit.cover,
                         )).paddingAll(5);
                   },

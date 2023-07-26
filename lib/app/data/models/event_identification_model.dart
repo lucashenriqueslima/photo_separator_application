@@ -1,3 +1,5 @@
+//TODO: make a named constructor for temporary data
+//TODO: Rename to Indentification
 class EventIdentification {
   int? id;
   String? name;
