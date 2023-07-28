@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:photo_separator/app/modules/dashboard/dashboard_controller.dart';
 import 'package:photo_separator/app/routes/app_pages.dart';
 import 'package:photo_separator/app/themes/styles/app_colors.dart';
 import 'package:photo_separator/app/themes/styles/app_text_styles.dart';
@@ -38,12 +37,12 @@ class AppNavigationRailController extends GetxController {
   final RxBool isExtetend = false.obs;
 
   void changeDestionation(int index) {
-    if (Get.currentRoute != Routes.DASHBOARD) {
-      Get.offAllNamed(Routes.DASHBOARD);
-    } else {
-      Get.put<DashboardController>(DashboardController());
-      Get.find<DashboardController>().indexPage.value = index;
-    }
+    const List<String> routes = [
+      Routes.DASHBOARD,
+      Routes.EVENT,
+    ];
+
+    Get.offAllNamed(routes[index]);
 
     currentIndex.value = index;
   }

@@ -8,7 +8,7 @@ class AuthService extends GetxService {
   final AuthRepository _repository = AuthRepository();
 
   final Rx<User> user = User().obs;
-  final RxBool isLogged = false.obs;
+  final RxBool isAuthenticated = false.obs;
 
   Future<AuthService> init() async {
     initUser();
@@ -19,7 +19,7 @@ class AuthService extends GetxService {
     final initialUser = _repository.readUser();
     if (initialUser.token != null) {
       user.value = initialUser;
-      isLogged.value = true;
+      isAuthenticated.value = true;
     }
 
     ever(user, (_) {
@@ -44,13 +44,13 @@ class AuthService extends GetxService {
     };
 
     user.value = User.fromJson(newUser);
-    isLogged.value = true;
+    isAuthenticated.value = true;
 
     return response;
   }
 
   void logout() {
     user.value = User();
-    isLogged.value = false;
+    isAuthenticated.value = false;
   }
 }

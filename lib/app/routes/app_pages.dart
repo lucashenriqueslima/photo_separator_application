@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:photo_separator/app/routes/midllewares/authentication_midlleware.dart';
 
 import '../modules/auth/login/login_binding.dart';
 import '../modules/auth/login/login_view.dart';
@@ -7,8 +8,6 @@ import '../modules/dashboard/dashboard_view.dart';
 import '../modules/event/event_binding.dart';
 import '../modules/event/event_detail/event_detail_binding.dart';
 import '../modules/event/event_detail/event_detail_view.dart';
-import '../modules/event/event_list/event_list_binding.dart';
-import '../modules/event/event_list/event_list_view.dart';
 import '../modules/event/event_view.dart';
 import '../modules/home/home_binding.dart';
 import '../modules/home/home_view.dart';
@@ -27,22 +26,20 @@ class AppPages {
       name: _Paths.DASHBOARD,
       page: () => const DashboardView(),
       binding: DashboardBinding(),
-    ),
-    GetPage(
-      name: _Paths.EVENT,
-      page: () => const EventView(),
-      binding: EventBinding(),
+      middlewares: [AuthenticationMiddleware()],
       children: [
         GetPage(
-          name: _Paths.LIST_EVENT,
-          page: () => const EventListView(),
-          binding: EventListBinding(),
-        ),
-        GetPage(
-          name: '${_Paths.EVENT_DETAIL}/:eventId',
-          page: () => const EventDetailView(),
-          binding: EventDetailBinding(),
-          transition: Transition.noTransition,
+          name: _Paths.EVENT,
+          page: () => const EventView(),
+          binding: EventBinding(),
+          children: [
+            GetPage(
+              name: '/:eventId',
+              page: () => const EventDetailView(),
+              binding: EventDetailBinding(),
+              transition: Transition.noTransition,
+            ),
+          ],
         ),
       ],
     ),

@@ -50,7 +50,7 @@ class ForbiddenException extends HttpException {
   ForbiddenException(String? message)
       : super.withDelay(403, forbiddenExceptionTitle,
             message ?? forbiddenExceptionMessage) {
-    if (!AuthService.to.isLogged.value) {
+    if (!AuthService.to.isAuthenticated.value) {
       AuthService.to.logout();
       Get.offAllNamed(Routes.LOGIN);
       return;

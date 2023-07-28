@@ -80,12 +80,3 @@ class EventView extends GetView<EventController> {
     );
   }
 }
-
-Map<dynamic, Widget> _getPages() {
-  return {
-    0: const EventCreateView(),
-    1: const Center(
-      child: Text('Event'),
-    ),
-  };
-}

@@ -27,6 +27,7 @@ void main() async {
       debugShowCheckedModeBanner: false,
       title: "Application",
       initialRoute: AppPages.INITIAL,
+      defaultTransition: Transition.fade,
       getPages: AppPages.routes,
       theme: Themes.lightTheme,
     ),

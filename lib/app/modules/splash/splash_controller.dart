@@ -5,9 +5,9 @@ import 'package:photo_separator/app/routes/app_pages.dart';
 class SplashController extends GetxController {
   @override
   void onReady() {
-    print(AuthService.to.isLogged.value);
+    print(AuthService.to.isAuthenticated.value);
 
-    if (AuthService.to.isLogged.value) {
+    if (AuthService.to.isAuthenticated.value) {
       Get.offAllNamed(Routes.DASHBOARD);
     } else {
       Get.offAllNamed(Routes.LOGIN);
