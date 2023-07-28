@@ -39,7 +39,7 @@ class AppNavigationRailController extends GetxController {
 
   void changeDestionation(int index) {
     if (Get.currentRoute != Routes.DASHBOARD) {
-      Get.offNamedUntil(Routes.DASHBOARD, (route) => route.isFirst);
+      Get.offAllNamed(Routes.DASHBOARD);
     } else {
       Get.put<DashboardController>(DashboardController());
       Get.find<DashboardController>().indexPage.value = index;

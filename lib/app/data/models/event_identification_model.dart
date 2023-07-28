@@ -3,28 +3,37 @@
 class EventIdentification {
   int? id;
   String? name;
-  String? email;
-  String? phone;
   String? bytes;
-  String? image;
+  String? url;
+  String? size;
+  String? errorMessage;
 
-  EventIdentification({this.id, this.name, this.email, this.phone, this.image});
+  EventIdentification.tmp({
+    this.bytes,
+    this.name,
+  });
 
   EventIdentification.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    email = json['email'];
-    phone = json['phone'];
-    image = json['image'];
+    url = json['url'];
+  }
+
+  static List<EventIdentification> fromJsonList(List<dynamic> json) {
+    final list = <EventIdentification>[];
+
+    for (final item in json) {
+      list.add(EventIdentification.fromJson(item));
+    }
+
+    return list;
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
-    data['email'] = email;
-    data['phone'] = phone;
-    data['image'] = image;
+    data['image'] = bytes;
     return data;
   }
 }

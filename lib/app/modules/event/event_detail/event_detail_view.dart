@@ -169,9 +169,9 @@ class EventDetailView extends GetView<EventDetailController> {
                     height: 40,
                   ),
                   Obx(() => Visibility(
-                        visible: controller.temporaryImages.isNotEmpty,
+                        visible: controller.tmpEventImages.isNotEmpty,
                         child: Text(
-                            "Faltam ${controller.temporaryImages.length.toString()} imagens."),
+                            "Faltam ${controller.tmpEventImages.length.toString()} imagens."),
                       )),
                   Container(
                     padding: const EdgeInsets.all(10),

@@ -65,6 +65,7 @@ class HttpClient {
     dynamic body,
     bool useDefaultUrl = true,
     bool bodyHasFile = false,
+    bool useHttpExceptions = true,
   }) async {
     _dio.options.connectTimeout = 10000;
     _dio.options.receiveTimeout = 10000;
@@ -101,7 +102,9 @@ class HttpClient {
 
         final decodedData = json.decode(e.response.toString());
 
-        GetHttpException(e.response?.statusCode, decodedData);
+        if (useHttpExceptions) {
+          GetHttpException(e.response?.statusCode, decodedData);
+        }
 
         return ApiResponse(e.response?.statusCode, decodedData);
       } else {

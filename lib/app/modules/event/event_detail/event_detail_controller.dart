@@ -5,16 +5,15 @@ import 'package:photo_separator/app/core/helpers/file/file_utils.dart';
 import 'package:photo_separator/app/data/models/event_identification_model.dart';
 import 'package:photo_separator/app/data/models/event_image_model.dart';
 import 'package:photo_separator/app/data/models/event_model.dart';
-import 'package:photo_separator/app/data/models/event_temporary_image.dart';
-import 'package:photo_separator/app/data/repositories/event_identification_repository.dart';
+import 'package:photo_separator/app/data/repositories/event_indentification_repository.dart';
 import 'package:photo_separator/app/data/repositories/event_image_repository.dart';
 import 'package:photo_separator/app/data/repositories/event_repository.dart';
 import 'package:photo_separator/app/widgets/app_dialog.dart';
 
 class EventDetailController extends GetxController {
   final EventRepository _eventRepository = EventRepository();
-  final EventIdentificationRepository eventIdentificationRepository =
-      EventIdentificationRepository();
+  final EventIndentificationRepository eventIndentificationRepository =
+      EventIndentificationRepository();
   final EventImageRepository _eventImageRepository = EventImageRepository();
 
   final eventId = Get.parameters['eventId'] ?? '';
@@ -27,11 +26,13 @@ class EventDetailController extends GetxController {
 
   final RxList<EventIdentification> eventIdentfications =
       <EventIdentification>[].obs;
-
-  final RxList<EventTemporaryImage> temporaryImages =
-      <EventTemporaryImage>[].obs;
-  final RxBool temporaryImagesIsLoading = false.obs;
   final RxList<EventImage> eventImages = <EventImage>[].obs;
+
+  final RxList<EventIdentification> tmpEventIdentfications =
+      <EventIdentification>[].obs;
+  final RxList<EventImage> tmpEventImages = <EventImage>[].obs;
+
+  final RxBool tmpEventImagesIsLoading = false.obs;
 
   List permitedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png'];
 
@@ -39,6 +40,8 @@ class EventDetailController extends GetxController {
   void onInit() {
     super.onInit();
     getEvent();
+    getEventIdentifications();
+    getEventImages();
   }
 
   Future<void> getEvent() async {
@@ -46,9 +49,20 @@ class EventDetailController extends GetxController {
     event.value = Event.fromJson(response.data['data']);
   }
 
+  Future<void> getEventIdentifications() async {
+    final response = await eventIndentificationRepository.getAll(eventId);
+    eventIdentfications
+        .assignAll(EventIdentification.fromJsonList(response.data['data']));
+  }
+
+  Future<void> getEventImages() async {
+    final response = await _eventImageRepository.getAll(eventId);
+    eventImages.assignAll(EventImage.fromJsonList(response.data['data']));
+  }
+
   Future<void> addEventIdentification(List<XFile> files) async {
     for (final file in files) {
-      final size = await file.length();
+      // final size = await file.length();
 
       // if (size > 20000) {
       //   return;
@@ -56,28 +70,52 @@ class EventDetailController extends GetxController {
 
       final bytes = await FileUtils.encodeFileToBase64(file);
 
-      final response = await eventIdentificationRepository.add(
-        bytes,
-        file.name,
+      tmpEventIdentfications.add(EventIdentification.tmp(
+        bytes: bytes,
+        name: file.name,
+      ));
+
+      final response = await eventIndentificationRepository.add(
+        tmpEventIdentfications.last,
         eventId,
       );
 
-      final eventIdentification =
-          EventIdentification.fromJson(response.data['data']);
+      eventIdentfications
+          .add(EventIdentification.fromJson(response.data['data']));
+
+      tmpEventIdentfications.removeLast();
     }
   }
 
   Future<void> addEventImagesTemporary(List<XFile> files) async {
-    temporaryImages.clear();
-    temporaryImagesIsLoading.value = true;
+    tmpEventImages.clear();
+    tmpEventImagesIsLoading.value = true;
+
+    for (final file in files) {
+      String errorMessage = '';
+
+      if (!permitedMimeTypes.contains(file.mimeType)) {
+        errorMessage = 'Formato de arquivo não permitido: ${file.mimeType}';
+      }
+
+      final size = await file.length();
+
+      tmpEventImages.add(EventImage.tmp(
+        image: file,
+        size: size,
+        errorMessage: errorMessage,
+      ));
+    }
+
+    tmpEventImagesIsLoading.value = false;
 
     Get.dialog(
       AppDialog(
         title: 'Imagens carregadas com sucesso!',
         primaryButtonLabel: 'Confirmar',
-        onPrimaryButtonPressed: acceptTemporaryImages,
+        onPrimaryButtonPressed: accepttmpEventImages,
         content: Obx(
-          () => temporaryImagesIsLoading.value
+          () => tmpEventImagesIsLoading.value
               ? const Center(child: CircularProgressIndicator())
               : Column(
                   children: [
@@ -106,12 +144,12 @@ class EventDetailController extends GetxController {
                                 backgroundColor: Colors.amber,
                                 child: Text((index + 1).toString()),
                               ),
-                              title: Text(temporaryImages[index].image!.name),
+                              title: Text(tmpEventImages[index].image!.name),
                               subtitle: Text(
-                                  'Tamanho: ${temporaryImages[index].size}'),
+                                  'Tamanho: ${tmpEventImages[index].size}'),
                             );
                           },
-                          itemCount: temporaryImages.length,
+                          itemCount: tmpEventImages.length,
                         ),
                       ),
                     ),
@@ -120,36 +158,14 @@ class EventDetailController extends GetxController {
         ),
       ),
     );
-
-    for (final file in files) {
-      String errorMessage = '';
-
-      if (!permitedMimeTypes.contains(file.mimeType)) {
-        errorMessage = 'Formato de arquivo não permitido: ${file.mimeType}';
-      }
-
-      final size = await file.length();
-
-      // if (size > 20000) {
-      //   errorMessage = 'Arquivo muito pesado, tamanho máximo: 20MB';
-      // }
-
-      temporaryImages.add(EventTemporaryImage(
-        image: file,
-        size: size,
-        errorMessage: errorMessage,
-      ));
-    }
-
-    temporaryImagesIsLoading.value = false;
   }
 
-  Future<void> acceptTemporaryImages() async {
+  Future<void> accepttmpEventImages() async {
     Get.back();
 
     // Use `Future.wait` to run the requests simultaneously.
     final responses = await Future.wait(
-      temporaryImages.map((image) async {
+      tmpEventImages.map((image) async {
         // If the image has an error message, don't add it to the list of responses.
         // if (image.errorMessage != '') {
         //   return null;
@@ -158,21 +174,17 @@ class EventDetailController extends GetxController {
 
         final response = await _eventImageRepository.add(image, eventId);
 
-        final eventImage = EventImage.fromJson(response.data['data']);
+        eventImages.add(EventImage.fromJson(response.data['data']));
 
-        eventImages.add(eventImage);
-
-        temporaryImages.remove(image);
+        tmpEventImages.remove(image);
       }),
     );
 
-    temporaryImages.clear();
-
-    // print(responses);
+    tmpEventImages.clear();
   }
 
   Future<void> addEventImages() async {
-    for (var element in temporaryImages) {
+    for (var element in tmpEventImages) {
       if (element.errorMessage != '') {
         return;
       }

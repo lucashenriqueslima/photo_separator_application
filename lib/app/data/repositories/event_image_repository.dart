@@ -1,7 +1,9 @@
-import 'package:photo_separator/app/data/models/event_temporary_image.dart';
+import 'package:photo_separator/app/data/models/event_image_model.dart';
 import 'package:photo_separator/app/data/providers/http_provider.dart';
 
 class EventImageRepository {
-  add(EventTemporaryImage eventTemporaryImage, String eventId) =>
-      HttpProvider.to.addEventImage(eventTemporaryImage, eventId);
+  getAll(eventId) => HttpProvider.to.getAllEventImages(eventId);
+
+  add(EventImage tmpEventImages, String eventId) =>
+      HttpProvider.to.addEventImage(tmpEventImages, eventId);
 }
