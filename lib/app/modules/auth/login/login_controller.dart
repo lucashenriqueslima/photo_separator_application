@@ -51,7 +51,7 @@ class LoginController extends GetxController {
 
     if (!formTreat.apiValidate(response)) return;
 
-    Get.offAllNamed(Routes.DASHBOARD);
+    Get.offAllNamed(Routes.HOME);
   }
 
   @override

@@ -9,11 +9,4 @@ class DashboardController extends GetxController {
   final RxInt indexPage = 0.obs;
   final List<String> titles = ['Início', 'Eventos'];
   final List<String> subtitles = ['Início', 'Eventos'];
-
-  @override
-  void onInit() {
-    super.onInit();
-    eventListBinding.dependencies();
-    eventCreateBinding.dependencies();
-  }
 }

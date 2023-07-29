@@ -56,7 +56,7 @@ class ForbiddenException extends HttpException {
       return;
     }
 
-    Get.offAllNamed(Routes.DASHBOARD);
+    Get.offAllNamed(Routes.HOME);
   }
 }
 

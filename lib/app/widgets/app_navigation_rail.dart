@@ -38,7 +38,7 @@ class AppNavigationRailController extends GetxController {
 
   void changeDestionation(int index) {
     const List<String> routes = [
-      Routes.DASHBOARD,
+      Routes.HOME,
       Routes.EVENT,
     ];
 
