@@ -44,7 +44,7 @@ class EventView extends GetView<EventController> {
                 (index) => DataRow2(
                   onTap: () {
                     Get.toNamed(
-                        '${Routes.EVENT_DETAIL}/${controller.events[index].id}');
+                        '${Routes.EVENT}/${controller.events[index].id}');
                   },
                   cells: [
                     DataCell(Text(controller.events[index].id.toString())),
