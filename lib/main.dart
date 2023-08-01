@@ -16,7 +16,7 @@ void main() async {
 
   // Initialize the auth service
   await Get.putAsync(() => AuthService().init());
-
+  
   // Set the status bar color to transparent
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
