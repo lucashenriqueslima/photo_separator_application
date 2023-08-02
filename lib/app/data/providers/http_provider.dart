@@ -78,4 +78,15 @@ class HttpProvider {
 
     return response;
   }
+
+  compareFaces(eventId) async {
+    final response = await _httpClient.request(
+      url: '/events/$eventId/compare-faces',
+      method: HttpMethods.post,
+    );
+
+    print(response);
+
+    return response;
+  }
 }

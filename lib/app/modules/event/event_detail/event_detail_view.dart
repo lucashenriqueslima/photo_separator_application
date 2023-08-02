@@ -212,7 +212,9 @@ class EventDetailView extends GetView<EventDetailController> {
                   const SizedBox(
                     height: 40,
                   ),
-                  AppButton(label: 'Fazer Separação', onPressed: () {})
+                  AppButton(
+                      label: 'Fazer Separação',
+                      onPressed: () => controller.compareFaces())
                 ],
               ),
             )

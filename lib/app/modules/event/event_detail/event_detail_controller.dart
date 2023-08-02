@@ -183,6 +183,8 @@ class EventDetailController extends GetxController {
     tmpEventImages.clear();
   }
 
+  compareFaces() => _eventRepository.compareFaces(eventId);
+
   Future<void> addEventImages() async {
     for (var element in tmpEventImages) {
       if (element.errorMessage != '') {
