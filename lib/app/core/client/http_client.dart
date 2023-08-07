@@ -67,8 +67,8 @@ class HttpClient {
     bool bodyHasFile = false,
     bool useHttpExceptions = true,
   }) async {
-    _dio.options.connectTimeout = 10000;
-    _dio.options.receiveTimeout = 10000;
+    // _dio.options.connectTimeout = 10000;
+    // _dio.options.receiveTimeout = 10000;
 
     final deafaultHeaders =
         headers?.cast<String, String>() ?? <String, String>{}
